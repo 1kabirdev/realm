@@ -6,7 +6,7 @@ import io.realm.Realm
 import java.util.*
 
 class AddMotesViewModel : ViewModel() {
-    
+
     private var realm: Realm = Realm.getDefaultInstance()
 
     fun addNote(noteTitle: String, noteDescription: String) {
