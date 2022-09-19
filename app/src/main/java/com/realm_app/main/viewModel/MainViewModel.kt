@@ -21,8 +21,6 @@ class MainViewModel : ViewModel() {
     }
 
 
-
-
     fun updateNote(id: String, noteTitle: String, noteDesc: String) {
         val target = realm.where(Note::class.java)
             .equalTo("id", id)
@@ -36,27 +34,17 @@ class MainViewModel : ViewModel() {
     }
 
 
+    private var realm: Realm = Realm.getDefaultInstance()
 
+    fun deleteNote(id: String) {
+        val notes = realm.where(Note::class.java)
+            .equalTo("id", id)
+            .findFirst()
 
-
-
-                        private var realm: Realm = Realm.getDefaultInstance()
-
-                        fun deleteNote(id: String) {
-                            val notes = realm.where(Note::class.java)
-                                .equalTo("id", id)
-                                .findFirst()
-
-                            realm.executeTransaction {
-                                notes?.deleteFromRealm()
-                            }
-                        }
-
-
-
-
-
-
+        realm.executeTransaction {
+            notes?.deleteFromRealm()
+        }
+    }
 
 
     fun deleteAllNotes() {
