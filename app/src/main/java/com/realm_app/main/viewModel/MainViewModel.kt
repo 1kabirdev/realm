@@ -9,10 +9,9 @@ import io.realm.RealmObject.deleteFromRealm
 import io.realm.kotlin.deleteFromRealm
 
 class MainViewModel : ViewModel() {
-    private var realm: Realm = Realm.getDefaultInstance()
 
-    val allNotes: LiveData<MutableList<Note>>
-        get() = getAllNotes()
+
+    val allNotes: LiveData<MutableList<Note>> get() = getAllNotes()
 
     private fun getAllNotes(): MutableLiveData<MutableList<Note>> {
         val list = MutableLiveData<MutableList<Note>>()
@@ -20,6 +19,9 @@ class MainViewModel : ViewModel() {
         list.value = notes?.subList(0, notes.size)
         return list
     }
+
+
+
 
     fun updateNote(id: String, noteTitle: String, noteDesc: String) {
         val target = realm.where(Note::class.java)
@@ -33,15 +35,29 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun deleteNote(id: String) {
-        val notes = realm.where(Note::class.java)
-            .equalTo("id", id)
-            .findFirst()
 
-        realm.executeTransaction {
-            notes?.deleteFromRealm()
-        }
-    }
+
+
+
+
+                        private var realm: Realm = Realm.getDefaultInstance()
+
+                        fun deleteNote(id: String) {
+                            val notes = realm.where(Note::class.java)
+                                .equalTo("id", id)
+                                .findFirst()
+
+                            realm.executeTransaction {
+                                notes?.deleteFromRealm()
+                            }
+                        }
+
+
+
+
+
+
+
 
     fun deleteAllNotes() {
         val notes = realm.where(Note::class.java).findAll()
